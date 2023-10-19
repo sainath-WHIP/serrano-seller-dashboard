@@ -209,20 +209,6 @@ export default function Products() {
 
   const totalRecords = nPage * pageSize;
 
-  // console.log(
-  //   lastIndex,
-  //   firstIndex,
-  //   records,
-  //   nPage,
-  //   numbers,
-  //   totalRecords,
-  //   "lastIndex",
-  //   "firstIndex",
-  //   "records",
-  //   "nPage",
-  //   "numbers",
-  //   "totalRecords"
-  // );
 
   const prePage = () => {
     if (currentpage !== firstIndex) {
