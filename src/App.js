@@ -10,10 +10,10 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import ShopProfile from "./pages/ShopProfile";
 import AddProduct from "./pages/addProducts";
 import Products from "./pages/Products";
-import Orders from "./pages/orders";
 import ProductDetails from "./pages/Products/product_id";
 import OrderDetails from "./pages/orders/order_id";
 import { ChangePassword, ForgotPassword, ResetPassword } from "./pages/password";
+import Orders from "./pages/orders";
 
 function App() {
 

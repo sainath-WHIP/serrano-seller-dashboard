@@ -53,13 +53,13 @@ function OriderDetails() {
                         <div className="flex gap-5">
                             <div className="w-8/12 bg-white rounded-md shadow-md h-min">
                                 <div className="px-6 py-4">
-                                    <p className="text-gray-700 font-semibold text-base">Ordered Items</p>
+                                    <p className="text-black font-semibold text-base">Ordered Items</p>
                                 </div>
 
                                 <div className="">
                                     <table className="w-full bg-white rounded-lg overflow-hidden mb-2">
                                         <thead className="">
-                                            <tr className="text-gray-700 text-sm font-medium border-b border-gray-400">
+                                            <tr className="text-gray-800 text-sm font-medium border-b border-gray-400">
                                                 <th className="px-6 py-4 text-left text-sm font-bold">Product Image</th>
                                                 <th className="px-6 py-4 text-left text-sm font-bold">Product Name</th>
                                                 <th className="px-6 py-4 text-left text-sm font-bold">Price</th>
