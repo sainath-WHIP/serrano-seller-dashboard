@@ -14,12 +14,15 @@ function OriderDetails() {
     const { order_id } = useParams();
 
     useEffect(() => {
-        ApiGet(getOrdersUrl).then((res) => {
-            const filteredData = res?.orders.find((item) => item._id === order_id);
+        const getOrders = async () => {
+            const data = await ApiGet(getOrdersUrl);
+            const result = await data.json();
+            const filteredData = result?.orders.find((item) => item._id === order_id);
             setOrderData(filteredData);
             setStatus(filteredData.status);
             console.log("filtered data ", filteredData)
-        });
+        };
+        getOrders();
     }, []);
 
     const statusChange = (e) => {

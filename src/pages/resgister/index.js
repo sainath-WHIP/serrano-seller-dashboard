@@ -6,7 +6,7 @@ import { TbLicense } from "react-icons/tb";
 import { PiIdentificationCardThin } from "react-icons/pi";
 import { LiaIdCardAltSolid } from "react-icons/lia";
 import { CiShop } from "react-icons/ci";
-import logo from "../assets/serrano.png";
+import logo from "../../assets/serrano.png";
 import { toast } from "react-toastify";
 
 const ShopCreate = () => {

@@ -39,8 +39,8 @@ const NavBar = () => {
 
   const menuItems = [
     { id: 1, label: "Dashboard", icon: Dashboard, link: "/dashboard" },
-    { id: 2, label: "Products", icon: ProductList, link: "/products" },
-    { id: 3, label: "Add Products", icon: AddProducts, link: "/add-product" },
+    { id: 2, label: "Shop Products", icon: ProductList, link: "/products" },
+    { id: 3, label: "All Products", icon: AddProducts, link: "/all-products" },
     { id: 4, label: "Orders", icon: Orders, link: "/orders" },
   ];
 
@@ -68,8 +68,8 @@ const NavBar = () => {
     <>
       <div className="flex overflow-y-hidden overflow-x-hidden">
         <div
-          className={`bg-[#000]  pt-3 pl-3  ${
-            open ? "w-[200px]" : "w-[75px]"
+          className={`bg-[#000]  pt-3  ${
+            open ? "w-[200px] pl-3" : "w-[75px]"
           } duration-700 text-gray-900 `}
         >
           <div className="">
@@ -86,7 +86,7 @@ const NavBar = () => {
           </div>
 
           <div className="flex flex-row gap-4 items-center mb-5">
-            <div className="px-1 py-3.5 bg-[#fff] rounded-md">
+            <div className={`px-1 ${open ? "ml-0" : "ml-3" } py-3.5 bg-[#fff] rounded-md`}>
               <p className="text-black font-bold text-[10px] tracking-wide  ">
                 Serrano
               </p>
@@ -111,8 +111,8 @@ const NavBar = () => {
                 title={open ? "" : label}
                 className={`
                   group flex items-center  gap-3.5 text-sm  p-1 rounded-md ${
-                    IsActiveLink(link) ? "text-red-500 " : "text-[#fff]  "
-                  } `}
+                    IsActiveLink(link) ? "text-red-500 " : "text-[#fff]"
+                  } ${open ? "pl-0": "pl-[22px]"}`}
               >
                 <div>
                   <Icon />
@@ -131,19 +131,6 @@ const NavBar = () => {
             ))}
             <Dropdown open={open} />
           </div>
-
-          <div
-            className={
-              open
-                ? `flex absolute bottom-5 left-36 duration-700 cursor-pointer`
-                : `flex absolute bottom-5 left-5 duration-700 cursor-pointer`
-            }
-          >
-            <div className="bg-white p-2 rounded-md" onClick={logoutHandler}>
-              <BiLogOut size={20} color="#000" />
-            </div>
-          </div>
-
         </div>
       </div>
     </>

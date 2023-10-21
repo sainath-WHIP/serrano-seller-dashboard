@@ -1,8 +1,8 @@
 import { useState } from "react";
-import Layout from "../components/Layout";
+import Layout from "../../components/Layout";
 import { useSelector } from "react-redux";
 import { BiEditAlt } from "react-icons/bi";
-import { updateSellerAvatarUrl, updateSellerInfoUrl } from "../server";
+import { updateSellerAvatarUrl, updateSellerInfoUrl } from "../../server";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { LiaIdCardAltSolid } from "react-icons/lia";
@@ -158,7 +158,7 @@ function ShopProfile() {
                       onChange={(e) =>
                         setSellerInfo({ ...sellerInfo, name: e.target.value })
                       }
-                      className="py-2 px-4 bg-[#F3F3F3] outline-none rounded-lg capitalize text-sm font-normal"
+                      className="py-2 px-4 bg-[#ccc] border border-gray-400 outline-none rounded-lg capitalize text-sm font-normal"
                     />
                   </div>
 
@@ -172,7 +172,7 @@ function ShopProfile() {
                         setSellerInfo({ ...sellerInfo, email: e.target.value })
                       }
                       readOnly={read}
-                      className="py-2 px-4 bg-[#F3F3F3] outline-none rounded-lg text-sm font-normal"
+                      className="py-2 px-4 bg-[#ccc] border border-gray-400 outline-none rounded-lg text-sm font-normal"
                     />
                   </div>
 
@@ -191,7 +191,7 @@ function ShopProfile() {
                           phoneNumber: e.target.value,
                         })
                       }
-                      className="py-2 px-4 bg-[#F3F3F3] outline-none rounded-lg capitalize text-sm font-normal"
+                      className="py-2 px-4 bg-[#ccc] border border-gray-400 outline-none rounded-lg capitalize text-sm font-normal"
                     />
                   </div>
 
@@ -208,7 +208,7 @@ function ShopProfile() {
                           address: e.target.value,
                         })
                       }
-                      className="py-2 px-4 bg-[#F3F3F3] outline-none rounded-lg capitalize text-sm font-normal"
+                      className="py-2 px-4 bg-[#ccc] border border-gray-400 outline-none rounded-lg capitalize text-sm font-normal"
                     />
                   </div>
 
@@ -219,13 +219,13 @@ function ShopProfile() {
                       name="zipCode"
                       value={sellerInfo.zipCode}
                       readOnly={read}
+                      className="py-2 px-4 bg-[#ccc] border border-gray-400 outline-none rounded-lg capitalize text-sm font-normal"
                       onChange={(e) =>
                         setSellerInfo({
                           ...sellerInfo,
                           zipCode: e.target.value,
                         })
                       }
-                      className="py-2 px-4 bg-[#F3F3F3] outline-none rounded-lg capitalize text-sm font-normal"
                     />
                   </div>
                 </div>

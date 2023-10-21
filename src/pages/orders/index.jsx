@@ -46,7 +46,7 @@ const Labels = [
     id: 4,
     title: "New Orders",
     amount: "22,345",
-    icon: Orders,
+    icon: OrderIcon,
     background: "bg-blue-600",
   },
 ];

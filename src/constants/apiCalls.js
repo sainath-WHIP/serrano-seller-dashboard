@@ -2,7 +2,13 @@ import axios from "axios";
 
 const ApiGet = async (api) => {
   try {
-    const { data } = await axios.get(api, { withCredentials: true });
+    const data = await fetch(api,{
+      method: "GET",
+      headers: {
+        "Content-Type" : "application/json"
+      },
+      credentials: 'include'
+    });
     console.log("apiget fun response ", data);
     return data;
   } catch (error) {

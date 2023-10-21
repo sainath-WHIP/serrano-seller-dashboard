@@ -1,5 +1,5 @@
-import Layout from "../components/Layout";
-import Cards from "../components/cards";
+import Layout from "../../components/Layout";
+import Cards from "../../components/cards";
 
 function Dashboard() {
   return (
@@ -13,6 +13,6 @@ function Dashboard() {
       </div>
     </Layout>
   );
-}
+};
 
 export default Dashboard;

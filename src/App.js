@@ -1,19 +1,19 @@
 import { useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Dashboard from "./pages/Dashboard";
+import Dashboard from "./pages/dashboard/Dashboard";
 import Store from "./redux/store";
 import { getSellerInfo } from "./redux/actions/sellerAction";
 import { Provider } from "react-redux";
-import ShopCreate from "./pages/shopRegister";
+import ShopCreate from "./pages/resgister";
 import ShopLogin from "./pages/login";
 import ProtectedRoute from "./components/ProtectedRoute";
-import ShopProfile from "./pages/ShopProfile";
-import AddProduct from "./pages/addProducts";
-import Products from "./pages/Products";
-import ProductDetails from "./pages/Products/product_id";
+import ShopProfile from "./pages/profile";
+import AddProduct from "./pages/Products/addProducts";
+import ShopAllProducts from "./pages/Products";
 import OrderDetails from "./pages/orders/order_id";
 import { ChangePassword, ForgotPassword, ResetPassword } from "./pages/password";
 import Orders from "./pages/orders";
+import AllProducts from "./pages/Products/allProducts";
 
 function App() {
 
@@ -50,7 +50,7 @@ function App() {
               path="/products"
               element={
                 <ProtectedRoute>
-                  <Products />
+                  <ShopAllProducts />
                 </ProtectedRoute>
               }
             />
@@ -58,7 +58,23 @@ function App() {
               path="products/:product_id"
               element={
                 <ProtectedRoute>
-                  <ProductDetails />
+                  <AddProduct />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/all-products"
+              element={
+                <ProtectedRoute>
+                  <AllProducts />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="all-products/:product_id"
+              element={
+                <ProtectedRoute>
+                  <AddProduct />
                 </ProtectedRoute>
               }
             />
@@ -75,14 +91,6 @@ function App() {
               element={
                 <ProtectedRoute>
                   <OrderDetails />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/add-product"
-              element={
-                <ProtectedRoute>
-                  <AddProduct />
                 </ProtectedRoute>
               }
             />

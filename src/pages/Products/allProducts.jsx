@@ -6,15 +6,15 @@ import { RxCross2 } from "react-icons/rx";
 import { MdOutlineDelete } from "react-icons/md";
 import Layout from "../../components/Layout";
 import axios from "axios";
-import { useNavigate, useParams } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { format } from "date-fns";
 import Loadnig from "../../components/Loading";
 import { HiOutlineUserGroup } from "react-icons/hi";
 // import { setProductData } from "../redux/reducers/productSlice";
 import { ApiGet } from "../../constants/apiCalls";
-import { getAllProductsUrl, getShopProductsUrl } from "../../server";
+import { getAllProductsUrl } from "../../server";
 
 const Total_Income = () => {
   return <GiMoneyStack size={27} color="white" />;
@@ -60,7 +60,7 @@ const Labels = [
   },
 ];
 
-function ShopAllProducts() {
+function AllProducts() {
   const [search, setSearch] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
   const [array, setArray] = useState([]);
@@ -72,7 +72,6 @@ function ShopAllProducts() {
   const [sortByCreatedAtAsc, setSortByCreatedAtAsc] = useState(true);
   const [statusFilter, setStatusFilter] = useState("all");
   const [loading, setLoading] = useState(false);
-  const { seller } = useSelector((state) => state.seller);
 
   const dispatch = useDispatch();
   const searchRef = useRef();
@@ -104,7 +103,7 @@ function ShopAllProducts() {
     const getAllProducts = async () => {
       try {
         setLoading(true);
-        const data = await ApiGet(getShopProductsUrl)
+        const data = await ApiGet(getAllProductsUrl)
         const result = await data.json();
         console.log("all products data", result?.products);
         setArray(result?.products);
@@ -258,7 +257,7 @@ function ShopAllProducts() {
                 </div>
               ))}
             </div>
-            <div className="flex justify-end items-center  mb-6 gap-10">
+            <div className="flex justify-end items-center mb-6 gap-10">
               <select
                 name="category"
                 className="block text-sm font-medium cursor-pointer capitalize bg-[#fff] border border-gray-400  rounded-md py-1.5 px-5 outline-none"
@@ -277,7 +276,7 @@ function ShopAllProducts() {
                 <option className="text-sm font-medium capitalize text-gray-600">
                   beer
                 </option>
-                <option className=" text-md font-medium capitalize text-gray-600">
+                <option className="text-sm font-medium capitalize text-gray-600">
                   extras
                 </option>
               </select>
@@ -292,7 +291,7 @@ function ShopAllProducts() {
                 />
                 {search.length > 0 && (
                   <p onClick={handleClearClick}>
-                    <RxCross2 className={"text-[#ff0000] text-xl"} />
+                    <RxCross2 className={"text-[#ff0000] text-xl "} />
                   </p>
                 )}
               </div>
@@ -335,12 +334,10 @@ function ShopAllProducts() {
                             {...item}
                             key={id}
                             _id={item._id}
-                            pstock={item.pstock}
-                            sellerId={seller._id}
                             deleteProduct={deleteProduct}
                             modalDeleteHandler={modalDeleteHandler}
                           />
-                        )
+                        );
                       })}
                   </tbody>
                 </table>
@@ -418,26 +415,26 @@ function ShopAllProducts() {
   );
 };
 
-export default ShopAllProducts;
+export default AllProducts;
 
 function Tr({
   _id,
   name,
   category,
   originalPrice,
+  discountPrice,
   stock,
+  description,
   images,
   createdAt,
   formVisiblehandler,
-  pstock,
-  sellerId
+  modalDeleteHandler,
 }) {
   const navigate = useNavigate();
   const navigateToProductDetails = (productId) => {
     navigate(`/all-products/${productId}`);
   };
   const CreatedAt = format(new Date(createdAt), "yyyy-MM-dd HH:mm");
-  const stockInfo = pstock.find(stock => stock.shop === sellerId);
 
   return (
     <tr className="text-black text-sm font-normal bg-white border-b border-gray-400  text-left text-[15px]">
@@ -460,7 +457,7 @@ function Tr({
           stock >= 100 ? "text-lime-600" : "text-red-600"
         }`}
       >
-        {pstock[0].stock}
+        {stock}
       </td>
       <td className=" px-6 ">
         <div className="">
