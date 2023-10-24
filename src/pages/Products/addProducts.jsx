@@ -5,11 +5,11 @@ import {
   createProductUrl,
   getAllProductsUrl,
   updateProductUrl,
-} from "../../server";
+} from "../../networking/apiEndPoints";
 import Layout from "../../components/Layout";
 import { toast } from "react-toastify";
 import { useParams } from "react-router-dom";
-import { ApiGet, ApiPost, ApiPut } from "../../constants/apiCalls";
+import { ApiGet, ApiPost, ApiPut } from "../../networking/apiCalls";
 
 function AddProduct() {
   const { seller } = useSelector((state) => state.seller);
@@ -25,7 +25,8 @@ function AddProduct() {
   const [originalPrice, setOriginalPrice] = useState("");
   const [discountPrice, setDiscountPrice] = useState("");
   const [stock, setStock] = useState("");
-  const { product_id } = useParams();
+  const { product_id, action } = useParams();
+  console.log(" product id and action ", product_id, action)
 
   const handleImageChange = (e) => {
     const files = Array.from(e.target.files);
@@ -99,7 +100,7 @@ function AddProduct() {
                   name="name"
                   value={product?.name}
                   onChange={(e) => setName(e.target.value)}
-                  className="w-full border border-gray-400 rounded-md py-2 px-3 text-black font-medium bg-[#ccc] text-sm outline-none shadow-md"
+                  className="w-full border border-gray-400 rounded-md py-2 px-3 text-black font-medium text-sm outline-none shadow-sm"
                   readOnly
                 />
               </div>
@@ -111,7 +112,7 @@ function AddProduct() {
                 <input
                   name="category"
                   value={product?.category}
-                  className="w-full border border-gray-400 rounded-md py-2 px-3 text-black font-medium bg-[#ccc] text-sm outline-none shadow-md"
+                  className="w-full border border-gray-400 rounded-md py-2 px-3 text-black font-medium text-sm outline-none shadow-sm"
                   readOnly
                 />
               </div>
@@ -124,7 +125,7 @@ function AddProduct() {
                   type="number"
                   name="originalPrice"
                   value={product?.originalPrice}
-                  className="w-full border border-gray-400 rounded-md py-2 px-3 text-black font-medium bg-[#ccc] text-sm outline-none shadow-md"
+                  className="w-full border border-gray-400 rounded-md py-2 px-3 text-black font-medium text-sm outline-none shadow-sm"
                   readOnly
                 />
               </div>
@@ -137,7 +138,7 @@ function AddProduct() {
                   type="number"
                   name="discountPrice"
                   value={product?.discountPrice}
-                  className="w-full border border-gray-400 rounded-md py-2 px-3 text-black font-medium bg-[#ccc] text-sm outline-none shadow-md"
+                  className="w-full border border-gray-400 rounded-md py-2 px-3 text-black font-medium text-sm outline-none shadow-sm"
                   required
                 />
               </div>
@@ -152,7 +153,7 @@ function AddProduct() {
                   value={stock}
                   placeholder="Enter Product Count"
                   onChange={(e) => setStock(e.target.value)}
-                  className="w-full border border-gray-400 rounded-md py-2 px-3 text-black font-medium bg-[#ccc] text-sm outline-none shadow-md placeholder:text-gray-500"
+                  className="w-full border border-gray-400 rounded-md py-2 px-3 text-black font-medium text-sm outline-none shadow-sm placeholder:text-gray-500"
                   required
                 />
               </div>
@@ -164,7 +165,7 @@ function AddProduct() {
                 <textarea
                   name="description"
                   value={product?.description}
-                  className="w-full border border-gray-400 rounded-md py-2 px-3 text-black font-medium bg-[#ccc] text-sm outline-none shadow-md"
+                  className="w-full border border-gray-400 rounded-md py-2 px-3 text-black font-medium text-sm outline-none shadow-sm"
                   rows="4"
                   readOnly
                 />
@@ -175,9 +176,9 @@ function AddProduct() {
               <button
                 type="button"
                 onClick={handleSubmit}
-                className="bg-blue-500 w-[60%] text-white px-4 py-2 rounded hover:bg-blue-600"
+                className="bg-black w-[60%] text-white text-sm font-medium px-4 py-2 rounded"
               >
-                Add Product
+                {action === "add" ? "Add Product" : "Update Stocks"}
               </button>
             </div>
           </form>

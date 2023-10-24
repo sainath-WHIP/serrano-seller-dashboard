@@ -6,10 +6,10 @@ import { PiPackageDuotone } from "react-icons/pi";
 import { LuChevronLeft } from 'react-icons/lu'
 import { Link, useLocation } from "react-router-dom";
 import axios from "axios";
-import { server } from "../server";
+import { server } from "../networking/apiEndPoints";
 import { LoadSellerFail } from "../redux/slices/sellerSlice";
 import { useDispatch } from "react-redux";
-import Dropdown from "./dropDown";
+import Dropdown from "./DropDown";
 
 const NavBar = () => {
   const [open, setOpen] = useState(true);

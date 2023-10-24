@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 //   deleteProductURL,
 //   deleteSellerURL,
 // } from "../networking/APIEndpoints";
-import { ApiGet } from "../constants/apiCalls";
+import { ApiGet } from "../networking/apiCalls";
 import { LoadSellerFail } from "../redux/slices/sellerSlice";
 import { useDispatch } from "react-redux";
 

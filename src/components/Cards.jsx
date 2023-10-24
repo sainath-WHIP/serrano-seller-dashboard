@@ -1,5 +1,5 @@
 import React from "react";
-import Layout from "../components/Layout";
+import Layout from "./Layout";
 import { GiMoneyStack, GiTakeMyMoney } from "react-icons/gi";
 import { HiOutlineUserGroup } from "react-icons/hi";
 import { AiOutlineShop } from "react-icons/ai";

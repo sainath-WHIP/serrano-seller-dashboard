@@ -1,14 +1,12 @@
 import { useState } from "react";
 import Layout from "../../components/Layout";
-import { useSelector } from "react-redux";
-import { BiEditAlt } from "react-icons/bi";
-import { updateSellerAvatarUrl, updateSellerInfoUrl } from "../../server";
+import { useDispatch, useSelector } from "react-redux";
+import { updateSellerAvatarUrl, updateSellerInfoUrl } from "../../networking/apiEndPoints";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { LiaIdCardAltSolid } from "react-icons/lia";
-import { TbLicense } from "react-icons/tb";
-import { CiShop } from "react-icons/ci";
 import { RxAvatar, RxCross2 } from "react-icons/rx";
+import { ApiPut } from "../../networking/apiCalls";
+import { getSellerInfo } from "../../redux/actions/sellerAction";
 
 function ShopProfile() {
   const { seller } = useSelector((state) => state.seller);
@@ -24,7 +22,6 @@ function ShopProfile() {
   const [modalOpen, setModalOpen] = useState(false);
 
   // new keyword always create a blank object for constructor function which is getting called just after new keyword;
-
   const updateSellerInfo = async () => {
     try {
       await axios
@@ -58,17 +55,13 @@ function ShopProfile() {
     const imageFile = e.target.querySelector('input[type="file"]').files[0];
     formData.append("image", imageFile);
     try {
-      const response = await fetch(updateSellerAvatarUrl, {
-        method: "PUT",
-        body: formData,
-      });
+      const response = await ApiPut(updateSellerAvatarUrl, {formData});
+      const data = await response.json();
       if (response.ok) {
-        const data = await response.json();
         console.log("Success:", data);
         toast.success(data?.message);
       } else {
-        const errorData = await response.json();
-        console.error("Error:", errorData);
+        console.log("Error:", data?.message);
       }
     } catch (error) {
       console.error("Network Error:", error);
@@ -109,20 +102,11 @@ function ShopProfile() {
                     </div>
 
                     <div>
-                      <div className="mt-2 flex items-center ">
-                        <span className="inline-block h-8 w-8 rounded-full overflow-hidden">
-                          {/* {avatar ? (
-                            <img
-                              src={avatar}
-                              alt="avatar"
-                              className="h-full w-full object-cover rounded-full"
-                            />
-                          ) : (
-                          )} */}
-                        </span>
+                      <div className="mt-2 flex items-center">
+                        
                         <label
                           htmlFor="file-input"
-                          className="ml-5 flex gap-2 items-center w-[100%] justify-start px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50"
+                          className="ml-5 w-[100%] px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50"
                         >
                           {/* <CiShop className="h-6 w-6" /> */}
                           <button onClick={() => setModalOpen(true)}>
@@ -138,13 +122,6 @@ function ShopProfile() {
                         </label>
                       </div>
                     </div>
-
-                    {/* <button
-                      className="px-4 py-2 bg-gray-200"
-                      onClick={handleAvatar}
-                    >
-                      update
-                    </button> */}
                   </div>
                 </div>
 
@@ -158,7 +135,7 @@ function ShopProfile() {
                       onChange={(e) =>
                         setSellerInfo({ ...sellerInfo, name: e.target.value })
                       }
-                      className="py-2 px-4 bg-[#ccc] border border-gray-400 outline-none rounded-lg capitalize text-sm font-normal"
+                      className="py-2 px-4 shadow-sm border border-gray-400 outline-none rounded-lg capitalize text-sm font-normal"
                     />
                   </div>
 
@@ -172,7 +149,7 @@ function ShopProfile() {
                         setSellerInfo({ ...sellerInfo, email: e.target.value })
                       }
                       readOnly={read}
-                      className="py-2 px-4 bg-[#ccc] border border-gray-400 outline-none rounded-lg text-sm font-normal"
+                      className="py-2 px-4 shadow-sm border border-gray-400 outline-none rounded-lg text-sm font-normal"
                     />
                   </div>
 
@@ -191,7 +168,7 @@ function ShopProfile() {
                           phoneNumber: e.target.value,
                         })
                       }
-                      className="py-2 px-4 bg-[#ccc] border border-gray-400 outline-none rounded-lg capitalize text-sm font-normal"
+                      className="py-2 px-4 shadow-sm border border-gray-400 outline-none rounded-lg capitalize text-sm font-normal"
                     />
                   </div>
 
@@ -208,7 +185,7 @@ function ShopProfile() {
                           address: e.target.value,
                         })
                       }
-                      className="py-2 px-4 bg-[#ccc] border border-gray-400 outline-none rounded-lg capitalize text-sm font-normal"
+                      className="py-2 px-4 shadow-sm border border-gray-400 outline-none rounded-lg capitalize text-sm font-normal"
                     />
                   </div>
 
@@ -219,7 +196,7 @@ function ShopProfile() {
                       name="zipCode"
                       value={sellerInfo.zipCode}
                       readOnly={read}
-                      className="py-2 px-4 bg-[#ccc] border border-gray-400 outline-none rounded-lg capitalize text-sm font-normal"
+                      className="py-2 px-4 shadow-sm border border-gray-400 outline-none rounded-lg capitalize text-sm font-normal"
                       onChange={(e) =>
                         setSellerInfo({
                           ...sellerInfo,
@@ -257,29 +234,28 @@ export default ShopProfile;
 
 const ProfileModal = ({ Profile, setModalOpen, modalOpen }) => {
   const [avatar, setAvatar] = useState("");
-  
+  const dispatch = useDispatch()
   const handleAvatar = async (e) => {
     e.preventDefault();
+    
     const formData = new FormData();
     const imageFile = e.target.querySelector('input[type="file"]').files[0];
     formData.append("image", imageFile);
-    // formData.append("image", avatar);
     try {
       const response = await fetch(updateSellerAvatarUrl, {
         method: "PUT",
-        credentials: "include",
         body: formData,
+        credentials: 'include'
       });
       const data = await response.json();
       toast(data?.message);
+      dispatch(getSellerInfo());
       console.log("data", data);
     } catch (error) {
       console.log("Network Error:", error);
     }
   };
-  // const handleFileInputChange = (e) => {
-  //   setAvatar(e.target.files[0]);
-  // };
+
   const handleFileInputChange = (e) => {
     const reader = new FileReader();
     reader.onload = () => {

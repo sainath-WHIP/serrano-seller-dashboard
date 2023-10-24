@@ -8,6 +8,7 @@ import { LiaIdCardAltSolid } from "react-icons/lia";
 import { CiShop } from "react-icons/ci";
 import logo from "../../assets/serrano.png";
 import { toast } from "react-toastify";
+import Loading from "../../components/Loading";
 
 const ShopCreate = () => {
   const [email, setEmail] = useState("");
@@ -21,6 +22,7 @@ const ShopCreate = () => {
   const [aadharCard, setAadharCard] = useState();
   const [panCard, setPanCard] = useState();
   const [shopLicense, setShopLicense] = useState();
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -50,11 +52,17 @@ const ShopCreate = () => {
           body: formData,
         }
       );
+      setLoading(true);
       if (response.ok) {
         // Handle success response here
         const data = await response.json();
         console.log("Success:", data);
-        toast.success(data.message);
+        if (data.message) {
+          setLoading(false);
+          toast.success(data.message);
+        } else {
+          return <Loading />;
+        }
       } else {
         // Handle error response here
         const errorData = await response.json();
@@ -76,54 +84,18 @@ const ShopCreate = () => {
     reader.readAsDataURL(e.target.files[0]);
   };
 
-  const handleFileInputChange = (e) => {
-    const reader = new FileReader();
-    reader.onload = () => {
-      if (reader.readyState === 2) {
-        setAvatar(reader.result);
-      }
-    };
-    reader.readAsDataURL(e.target.files[0]);
-  };
-  const handleAadharCardInputChange = (e) => {
-    const reader = new FileReader();
-    reader.onload = () => {
-      if (reader.readyState === 2) {
-        setAadharCard(reader.result);
-      }
-    };
-    reader.readAsDataURL(e.target.files[0]);
-  };
-  const handlePanCardInputChange = (e) => {
-    const reader = new FileReader();
-    reader.onload = () => {
-      if (reader.readyState === 2) {
-        setPanCard(reader.result);
-      }
-    };
-    reader.readAsDataURL(e.target.files[0]);
-  };
-  const handleShopLicenseInputChange = (e) => {
-    const reader = new FileReader();
-    reader.onload = () => {
-      if (reader.readyState === 2) {
-        setShopLicense(reader.result);
-      }
-    };
-    reader.readAsDataURL(e.target.files[0]);
-  };
-
   return (
     <div className="min-h-screen bg-[#ccc] flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="flex justify-center">
         <img src={logo} alt="" className="rounded-md" />
-      </div>
+      </div> 
 
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
           Register as a Seller
         </h2>
       </div>
+
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-[50rem]">
         <div className="bg-[#fff] py-12 shadow sm:rounded-lg sm:px-16">
           <form className="" method="POST" onSubmit={handleSubmit}>
@@ -238,11 +210,11 @@ const ShopCreate = () => {
                 <div className="mt-1 relative">
                   <input
                     type={visible ? "text" : "password"}
+                    className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                     name="password"
-                    required
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                    required
                   />
                   {visible ? (
                     <AiOutlineEye
@@ -261,17 +233,13 @@ const ShopCreate = () => {
               </div>
 
               <div>
-                <label
-                  htmlFor="avatar"
-                  className="block text-sm font-medium text-gray-700"
-                ></label>
-                <div className="mt-2 flex items-center">
-                  <span className="inline-block h-8 w-8 rounded-full overflow-hidden">
+                <div className="mt-2 flex items-center justify-between">
+                  <span className="inline-block h-10 w-10 overflow-hidden">
                     {avatar ? (
                       <img
                         src={avatar}
                         alt="avatar"
-                        className="h-full w-full object-cover rounded-full"
+                        className="h-full w-full object-cover rounded-md"
                       />
                     ) : (
                       <CiShop className="h-7 w-7" />
@@ -279,7 +247,7 @@ const ShopCreate = () => {
                   </span>
                   <label
                     htmlFor="file-input"
-                    className="ml-5 flex items-center  w-[100%] justify-start px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50"
+                    className="flex items-center w-[80%] px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50"
                   >
                     <span>Upload Shop Image</span>
                     <input
@@ -294,25 +262,22 @@ const ShopCreate = () => {
               </div>
 
               <div>
-                <label
-                  htmlFor="aadharCard"
-                  className="block text-sm font-medium text-gray-700"
-                ></label>
-                <div className="mt-2 flex items-center">
-                  <span className="inline-block h-8 w-8 rounded-full overflow-hidden">
+                <div className="mt-2 flex items-center justify-between">
+                  <span className="inline-block h-10 w-10 overflow-hidden">
                     {aadharCard ? (
                       <img
                         src={aadharCard}
                         alt="avatar"
-                        className="h-full w-full object-cover rounded-full"
+                        className="h-full w-full object-cover rounded-md"
                       />
                     ) : (
                       <PiIdentificationCardThin className="h-7 w-7" />
                     )}
                   </span>
+
                   <label
                     htmlFor="aadharCard-input"
-                    className="ml-5 flex items-center  w-[100%] justify-start px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50"
+                    className="flex items-center w-[80%] px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50"
                   >
                     <span>Upload Aadhar Card</span>
                     <input
@@ -327,17 +292,13 @@ const ShopCreate = () => {
               </div>
 
               <div>
-                <label
-                  htmlFor="shopLicense"
-                  className="block text-sm font-medium text-gray-700"
-                ></label>
-                <div className="mt-2 flex items-center">
-                  <span className="inline-block h-8 w-8 rounded-full overflow-hidden">
+                <div className="mt-2 flex items-center justify-between">
+                  <span className="inline-block h-10 w-10 overflow-hidden">
                     {shopLicense ? (
                       <img
                         src={shopLicense}
                         alt="avatar"
-                        className="h-full w-full object-cover rounded-full"
+                        className="h-full w-full object-cover rounded-md"
                       />
                     ) : (
                       <TbLicense className="h-7 w-7 opacity-70" />
@@ -345,7 +306,7 @@ const ShopCreate = () => {
                   </span>
                   <label
                     htmlFor="shopLicense-input"
-                    className="ml-5 flex items-center  w-[100%] justify-start px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50"
+                    className="flex items-center w-[80%] px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50"
                   >
                     <span>Upload Shop License</span>
                     <input
@@ -360,17 +321,13 @@ const ShopCreate = () => {
               </div>
 
               <div>
-                <label
-                  htmlFor="panCard"
-                  className="block text-sm font-medium text-gray-700"
-                ></label>
-                <div className="mt-2 flex items-center">
-                  <span className="inline-block h-8 w-8 rounded-full overflow-hidden">
+                <div className="mt-2 flex items-center justify-between">
+                  <span className="inline-block h-10 w-10 overflow-hidden">
                     {panCard ? (
                       <img
                         src={panCard}
                         alt="avatar"
-                        className="h-full w-full object-cover rounded-full"
+                        className="h-full w-full object-cover rounded-md"
                       />
                     ) : (
                       <LiaIdCardAltSolid className="h-7 w-7 opacity-70" />
@@ -378,7 +335,7 @@ const ShopCreate = () => {
                   </span>
                   <label
                     htmlFor="panCard-input"
-                    className="ml-5 flex items-center w-[100%] justify-start px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50"
+                    className="flex items-center w-[80%] px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50"
                   >
                     <span>Upload Pan Card</span>
                     <input
@@ -397,8 +354,8 @@ const ShopCreate = () => {
                   <div className="">
                     <button
                       type="submit"
-                      className="group relative w-40 h-[40px] flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700"
-                      // onClick={() => handleSubmit()}
+                      className="group relative w-40 h-[40px] flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-black"
+                    // onClick={() => handleSubmit()}
                     >
                       Submit
                     </button>

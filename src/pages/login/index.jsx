@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { shopLoginUrl } from "../../server";
+import { shopLoginUrl } from "../../networking/apiEndPoints";
 import { getSellerInfo } from "../../redux/actions/sellerAction";
 import { useDispatch } from "react-redux";
 import logo from '../../assets/serrano.png'
@@ -59,7 +59,7 @@ const ShopLogin = () => {
   return (
     <div className="min-h-screen bg-[#ccc] flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="flex justify-center">
-       <img src={logo} alt="serrano logo" className="rounded-md" />
+       <img src={logo} alt="serrano logo" className="rounded-md w-16 h-16" />
       </div>
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <h2 className="mt-5 text-center text-3xl font-extrabold text-gray-900">
@@ -84,7 +84,7 @@ const ShopLogin = () => {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="appearance-none block w-full px-3 py-2 bg-[#ccc] border border-gray-400 rounded-md shadow-sm placeholder-gray-400 outline-none text-sm"
+                  className="appearance-none block w-full px-3 py-2 border border-gray-400 rounded-md shadow-sm placeholder-gray-400 outline-none text-sm"
                 />
               </div>
             </div>
@@ -103,7 +103,7 @@ const ShopLogin = () => {
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="appearance-none block w-full px-3 py-2 bg-[#ccc] border border-gray-400 rounded-md shadow-sm placeholder-gray-400 outline-none text-sm"
+                  className="appearance-none block w-full px-3 py-2 border border-gray-400 rounded-md shadow-sm placeholder-gray-400 outline-none text-sm"
                 />
                 {visible ? (
                   <AiOutlineEye

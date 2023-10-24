@@ -7,7 +7,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { format } from "date-fns";
 import Loadnig from "../../components/Loading";
-import { getOrdersUrl } from "../../server";
+import { getOrdersUrl } from "../../networking/apiEndPoints";
 
 const Total_Income = () => {
   return <GiMoneyStack size={27} color="white" />;
@@ -87,7 +87,7 @@ function Orders() {
   }, []);
 
   useEffect(() => {
-    const filteredList = array.filter((item) => {
+    const filteredList = array.reverse().filter((item) => {
       const { user, cart, status } = item;
       const lowerCaseSearch = search.toLowerCase();
 
@@ -242,7 +242,7 @@ function Orders() {
             <div className="flex justify-end items-center mb-6 gap-10">
               <select
                 name="category"
-                className="block font-medium bg-white cursor-pointer capitalize border border-gray-400 rounded-md py-1.5 px-5 outline-none"
+                className="block text-sm font-medium bg-white cursor-pointer capitalize border border-gray-400 rounded-md py-1.5 px-5 outline-none"
                 value={statusFilter}
                 onChange={handleStatusChange}
               >
@@ -257,7 +257,7 @@ function Orders() {
                 </option>
               </select>
 
-              <div className="rounded-md px-4 py-2 border bg-white border-gray-400 w-[30%] flex justify-center items-center">
+              <div className="rounded-md px-4 py-1.5 border bg-white border-gray-400 w-[30%] flex justify-center items-center">
                 <input
                   className="text-sm bg-white text-black placeholder-black outline-none w-full"
                   type="text"

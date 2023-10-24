@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import profile from "../assets/serrano.png";
-import { shopLogOutUrl } from "../server";
+import { shopLogOutUrl } from "../networking/apiEndPoints";
 import { useState } from "react";
 import { LogoutShopAlert } from "./CustomAlerts";
 

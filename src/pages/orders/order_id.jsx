@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
 import Layout from '../../components/Layout';
-import { ApiGet, ApiPut } from '../../constants/apiCalls';
-import { getOrdersUrl, updateOrderStatusUrl } from '../../server';
+import { ApiGet, ApiPut } from '../../networking/apiCalls';
+import { getOrdersUrl, updateOrderStatusUrl } from '../../networking/apiEndPoints';
 import { format } from 'date-fns';
 import { toast } from 'react-toastify';
 import Moment from 'react-moment';

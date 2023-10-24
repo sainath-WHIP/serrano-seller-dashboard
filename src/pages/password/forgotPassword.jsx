@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Logo from "../../assets/serrano.png";
-import { ApiPost } from "../../constants/apiCalls";
-import { forgotPasswordUrl } from "../../server";
+import { ApiPost } from "../../networking/apiCalls";
+import { forgotPasswordUrl } from "../../networking/apiEndPoints";
 
 function ForgotPassword() {
     const navigate = useNavigate();
@@ -50,7 +50,7 @@ function ForgotPassword() {
                             </label>
                             <div className="mt-1">
                                 <input
-                                    className="appearance-none block w-full px-3 py-2 bg-[#ccc] border border-gray-400 placeholder:text-sm placeholder:font-normal rounded-md shadow-sm placeholder-gray-400 outline-none text-sm"
+                                    className="appearance-none block w-full px-3 py-2 border border-gray-400 placeholder:text-sm placeholder:font-normal rounded-md shadow-sm placeholder-gray-400 outline-none text-sm"
                                     placeholder="Enter your email id"
                                     type="email"
                                     name="email"

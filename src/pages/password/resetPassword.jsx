@@ -4,8 +4,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import Logo from "../../assets/serrano.png";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { toast } from "react-toastify";
-import { ApiPost } from "../../constants/apiCalls";
-import { resetPasswordUrl } from "../../server";
+import { ApiPost } from "../../networking/apiCalls";
+import { resetPasswordUrl } from "../../networking/apiEndPoints";
 
 const ResetPassword = () => {
     const navigate = useNavigate();
@@ -79,7 +79,7 @@ const ResetPassword = () => {
                                     required
                                     value={newPassword}
                                     onChange={(e) => setNewPassword(e.target.value)}
-                                    className="appearance-none block w-full px-3 py-2 bg-[#ccc] border border-gray-400 rounded-md shadow-sm placeholder-gray-400 outline-none text-sm"
+                                    className="appearance-none block w-full px-3 py-2 border border-gray-400 rounded-md shadow-sm placeholder-gray-400 outline-none text-sm"
                                 />
                                 {visible ? (
                                     <AiOutlineEye
@@ -110,7 +110,7 @@ const ResetPassword = () => {
                                     required
                                     value={confirmPassword}
                                     onChange={(e) => setConfirmPassword(e.target.value)}
-                                    className="appearance-none block w-full px-3 py-2 bg-[#ccc] border border-gray-400 rounded-md shadow-sm placeholder-gray-400 outline-none text-sm"
+                                    className="appearance-none block w-full px-3 py-2 border border-gray-400 rounded-md shadow-sm placeholder-gray-400 outline-none text-sm"
                                 />
                                 {visibleeye ? (
                                     <AiOutlineEye

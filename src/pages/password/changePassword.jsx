@@ -4,8 +4,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import Logo from "../../assets/serrano.png";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { toast } from "react-toastify";
-import { ApiPut } from "../../constants/apiCalls";
-import { changePasswordUrl } from "../../server";
+import { ApiPut } from "../../networking/apiCalls";
+import { changePasswordUrl } from "../../networking/apiEndPoints";
 
 const ChangePassword = () => {
   const navigate = useNavigate();
@@ -57,12 +57,12 @@ const ChangePassword = () => {
               </label>
               <div className="mt-1 relative">
                 <input
-                  type={visible ? "text" : "password"}
+                  type={visibleold ? "text" : "password"}
                   name="oldpassword"
                   required
                   value={oldPassword}
                   onChange={(e) => setOldPassword(e.target.value)}
-                  className="appearance-none block w-full px-3 py-2 bg-[#ccc] border border-gray-400 rounded-md shadow-sm placeholder-gray-400 outline-none text-sm"
+                  className="appearance-none block w-full px-3 py-2  border border-gray-400 rounded-md shadow-sm placeholder-gray-400 outline-none text-sm"
                 />
                 {visibleold ? (
                   <AiOutlineEye
@@ -93,7 +93,7 @@ const ChangePassword = () => {
                   required
                   value={newPassword}
                   onChange={(e) => setNewPassword(e.target.value)}
-                  className="appearance-none block w-full px-3 py-2 bg-[#ccc] border border-gray-400 rounded-md shadow-sm placeholder-gray-400 outline-none text-sm"
+                  className="appearance-none block w-full px-3 py-2  border border-gray-400 rounded-md shadow-sm placeholder-gray-400 outline-none text-sm"
                 />
                 {visible ? (
                   <AiOutlineEye
@@ -124,7 +124,7 @@ const ChangePassword = () => {
                   required
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
-                  className="appearance-none block w-full px-3 py-2 bg-[#ccc] border border-gray-400 rounded-md shadow-sm placeholder-gray-400 outline-none text-sm"
+                  className="appearance-none block w-full px-3 py-2  border border-gray-400 rounded-md shadow-sm placeholder-gray-400 outline-none text-sm"
                 />
                 {visibleeye ? (
                   <AiOutlineEye

@@ -6,15 +6,15 @@ import { RxCross2 } from "react-icons/rx";
 import { MdOutlineDelete } from "react-icons/md";
 import Layout from "../../components/Layout";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { format } from "date-fns";
 import Loadnig from "../../components/Loading";
 import { HiOutlineUserGroup } from "react-icons/hi";
 // import { setProductData } from "../redux/reducers/productSlice";
-import { ApiGet } from "../../constants/apiCalls";
-import { getAllProductsUrl } from "../../server";
+import { ApiGet } from "../../networking/apiCalls";
+import { getAllProductsUrl } from "../../networking/apiEndPoints";
 
 const Total_Income = () => {
   return <GiMoneyStack size={27} color="white" />;
@@ -72,6 +72,8 @@ function AllProducts() {
   const [sortByCreatedAtAsc, setSortByCreatedAtAsc] = useState(true);
   const [statusFilter, setStatusFilter] = useState("all");
   const [loading, setLoading] = useState(false);
+  // const { product_id, action } = useParams();
+  // console.log(" product id and action ", product_id, action );
 
   const dispatch = useDispatch();
   const searchRef = useRef();
@@ -280,7 +282,7 @@ function AllProducts() {
                   extras
                 </option>
               </select>
-              <div className="rounded-md bg-[#fff] px-4 py-2 border border-gray-400 w-[30%] flex justify-center items-center">
+              <div className="rounded-md bg-[#fff] px-4 py-1.5 border border-gray-400 w-[30%] flex justify-center items-center">
                 <input
                   className="text-sm bg-[#fff] text-black placeholder-black outline-none w-full"
                   type="text"
@@ -431,8 +433,9 @@ function Tr({
   modalDeleteHandler,
 }) {
   const navigate = useNavigate();
+  const action = "add";
   const navigateToProductDetails = (productId) => {
-    navigate(`/all-products/${productId}`);
+    navigate(`/all-products/${action}/${productId}`);
   };
   const CreatedAt = format(new Date(createdAt), "yyyy-MM-dd HH:mm");
 

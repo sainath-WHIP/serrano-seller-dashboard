@@ -13,8 +13,8 @@ import { format } from "date-fns";
 import Loadnig from "../../components/Loading";
 import { HiOutlineUserGroup } from "react-icons/hi";
 // import { setProductData } from "../redux/reducers/productSlice";
-import { ApiGet } from "../../constants/apiCalls";
-import { getAllProductsUrl, getShopProductsUrl } from "../../server";
+import { ApiGet } from "../../networking/apiCalls";
+import { getAllProductsUrl, getShopProductsUrl } from "../../networking/apiEndPoints";
 
 const Total_Income = () => {
   return <GiMoneyStack size={27} color="white" />;
@@ -281,7 +281,7 @@ function ShopAllProducts() {
                   extras
                 </option>
               </select>
-              <div className="rounded-md bg-[#fff] px-4 py-2 border border-gray-400 w-[30%] flex justify-center items-center">
+              <div className="rounded-md bg-[#fff] px-4 py-1.5 border border-gray-400 w-[30%] flex justify-center items-center">
                 <input
                   className="text-sm bg-[#fff] text-black placeholder-black outline-none w-full"
                   type="text"
@@ -433,11 +433,12 @@ function Tr({
   sellerId
 }) {
   const navigate = useNavigate();
+  const action = "update";
   const navigateToProductDetails = (productId) => {
-    navigate(`/all-products/${productId}`);
+    navigate(`/all-products/${action}/${productId}`);
   };
   const CreatedAt = format(new Date(createdAt), "yyyy-MM-dd HH:mm");
-  const stockInfo = pstock.find(stock => stock.shop === sellerId);
+  // const stockInfo = pstock.find(stock => stock.shop === sellerId);
 
   return (
     <tr className="text-black text-sm font-normal bg-white border-b border-gray-400  text-left text-[15px]">
@@ -470,7 +471,7 @@ function Tr({
               title="Edit"
               onClick={() => navigateToProductDetails(_id)}
             >
-              Add
+              Update
             </button>
           </div>
         </div>

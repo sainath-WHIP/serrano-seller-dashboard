@@ -4,7 +4,7 @@ import {
   LoadSellerRequest,
   LoadSellerSuccess,
 } from "../slices/sellerSlice";
-import { getSellerDetailsUrl } from "../../server";
+import { getSellerDetailsUrl } from "../../networking/apiEndPoints";
 
 export const getSellerInfo = () => async (dispatch) => {
   try {
