@@ -1,20 +1,17 @@
 import React, { useEffect, useRef, useState } from "react";
 import { GiMoneyStack, GiTakeMyMoney } from "react-icons/gi";
 import { AiOutlineShop } from "react-icons/ai";
-import { TbEdit } from "react-icons/tb";
 import { RxCross2 } from "react-icons/rx";
-import { MdOutlineDelete } from "react-icons/md";
 import Layout from "../../components/Layout";
 import axios from "axios";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import { format } from "date-fns";
 import Loadnig from "../../components/Loading";
 import { HiOutlineUserGroup } from "react-icons/hi";
-// import { setProductData } from "../redux/reducers/productSlice";
 import { ApiGet } from "../../networking/apiCalls";
-import { getAllProductsUrl, getShopProductsUrl } from "../../networking/apiEndPoints";
+import { getShopProductsUrl } from "../../networking/apiEndPoints";
+import Moment from "react-moment";
 
 const Total_Income = () => {
   return <GiMoneyStack size={27} color="white" />;
@@ -108,9 +105,6 @@ function ShopAllProducts() {
         const result = await data.json();
         console.log("all products data", result?.products);
         setArray(result?.products);
-        const products = result?.products;
-        console.log("products", products);
-        // dispatch(setProductData(products));
         setLoading(false);
       } catch (error) {
         console.log("error", error);
@@ -122,10 +116,8 @@ function ShopAllProducts() {
   useEffect(() => {
     const filteredList = array.filter((item) => {
       const { name, category } = item;
-      // console.log("item",item)
       const lowerCaseSearch = search.toLowerCase();
 
-      // If the search is empty, include the item in the result
       if (search === "") {
         return true;
       }
@@ -297,120 +289,127 @@ function ShopAllProducts() {
                 )}
               </div>
             </div>
-            <div>
-              <div className="overflow-x-scroll mb-4">
-                <table className="w-full bg-[#fff] rounded-xl mb-2 overflow-hidden">
-                  <thead className="">
-                    <tr className=" text-black text-sm font-bold ">
-                      <th className="px-6 py-4 text-left">
-                        Product Id{" "}
-                        <button onClick={sortById}>
-                          {sortByIdAsc ? <span>▲</span> : <span>▼</span>}
-                        </button>
-                      </th>
-                      <th className="px-6 py-4 text-left">
-                        CreatedAt{" "}
-                        <button onClick={sortByCreatedAt}>
-                          {sortByCreatedAtAsc ? <span>▲</span> : <span>▼</span>}
-                        </button>
-                      </th>
-                      <th className="px-6 py-4 text-left">Image</th>
-                      <th className="px-6 py-4 text-left">
-                        Product Name{" "}
-                        <button onClick={sortByName}>
-                          {sortByNameAsc ? <span>▲</span> : <span>▼</span>}
-                        </button>
-                      </th>
-                      <th className="px-6 py-4 text-left">Category</th>
-                      <th className="px-6 py-4 text-left">Price</th>
-                      <th className="px-6 py-4 text-left">Stock</th>
-                      <th className="px-6 py-4 text-left">Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody className="">
-                    {currentRecords &&
-                      currentRecords.map((item, id) => {
-                        return (
-                          <Tr
-                            {...item}
-                            key={id}
-                            _id={item._id}
-                            pstock={item.pstock}
-                            sellerId={seller._id}
-                            deleteProduct={deleteProduct}
-                            modalDeleteHandler={modalDeleteHandler}
-                          />
-                        )
-                      })}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-            <div className="flex justify-between mt-2">
-              <div className="flex justify-center items-center ">
-                <p className="text-sm text-black ">
-                  <span className="">Showing</span>
-                  <span className="font-medium ml-1">{currentpage}</span>
-                  <span className="ml-1">to</span>
-                  <span className="font-medium ml-1">
-                    {Math.min(lastIndex, totalRecords)}
-                  </span>
-                  <span className="ml-1">of</span>
-                  <span className="font-medium ml-1">{totalRecords}</span>
-                  <span className="ml-1">results</span>
-                </p>
-              </div>
-              <div className="flex gap-3">
-                <button
-                  onClick={prePage}
-                  className={`flex items-center px-4 py-2 text-sm font-semibold text-black bg-white   ${
-                    currentpage === 1 ? "hidden" : ""
-                  }`}
-                >
-                  <svg
-                    aria-hidden="true"
-                    className="w-5 h-5 mr-2"
-                    fill="black"
-                    viewBox="0 0 20 20"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M7.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l2.293 2.293a1 1 0 010 1.414z"
-                      clipRule="evenodd"
-                    ></path>
-                  </svg>
-                  Prev
-                </button>
-                <p className="text-sm text-black flex justify-center items-center ">
-                  <span className="">Page</span>
-                  <span className="font-medium ml-1">{currentpage}</span>
-                  <span className="ml-1">of</span>
-                  <span className="font-medium ml-1">{nPage}</span>
-                </p>
-                <button
-                  onClick={nextPage}
-                  className={`flex items-center px-4 py-2 text-sm font-semibold text-black bg-white   ${
-                    currentpage === nPage ? "hidden" : ""
-                  }`}
-                >
-                  Next
-                  <svg
-                    aria-hidden="true"
-                    className="w-5 h-5 ml-2"
-                    fill="black"
-                    viewBox="0 0 20 20"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z"
-                      clipRule="evenodd"
-                    ></path>
-                  </svg>
-                </button>
-              </div>
-            </div>
+            {array.length === 0 ?
+              <>
+                <div className="flex justify-center mt-10">
+                  <p className="text-gray-700 text-base font-medium">Please go to the <Link to={"/all-products"} className="text-blue-600 hover:underline"> All Products</Link> page to add products.</p>
+                </div>
+              </> : 
+              <>
+                <div>
+                  <div className="overflow-x-scroll mb-4">
+                    <table className="w-full bg-[#fff] rounded-xl mb-2 overflow-hidden">
+                      <thead className="">
+                        <tr className=" text-black text-sm font-bold ">
+                          <th className="px-6 py-4 text-left">
+                            Product Id{" "}
+                            <button onClick={sortById}>
+                              {sortByIdAsc ? <span>▲</span> : <span>▼</span>}
+                            </button>
+                          </th>
+                          <th className="px-6 py-4 text-left">
+                            CreatedAt{" "}
+                            <button onClick={sortByCreatedAt}>
+                              {sortByCreatedAtAsc ? <span>▲</span> : <span>▼</span>}
+                            </button>
+                          </th>
+                          <th className="px-6 py-4 text-left">Image</th>
+                          <th className="px-6 py-4 text-left">
+                            Product Name{" "}
+                            <button onClick={sortByName}>
+                              {sortByNameAsc ? <span>▲</span> : <span>▼</span>}
+                            </button>
+                          </th>
+                          <th className="px-6 py-4 text-left">Category</th>
+                          <th className="px-6 py-4 text-left">Price</th>
+                          <th className="px-6 py-4 text-left">Stock</th>
+                          <th className="px-6 py-4 text-left">Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody className="">
+                        {currentRecords &&
+                          currentRecords.map((item, id) => {
+                            return (
+                              <Tr
+                                {...item}
+                                key={id}
+                                _id={item._id}
+                                pstock={item.pstock}
+                                sellerId={seller._id}
+                                deleteProduct={deleteProduct}
+                                modalDeleteHandler={modalDeleteHandler}
+                              />
+                            )
+                          })}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <div className="flex justify-between mt-2">
+                  <div className="flex justify-center items-center ">
+                    <p className="text-sm text-black ">
+                      <span className="">Showing</span>
+                      <span className="font-medium ml-1">{currentpage}</span>
+                      <span className="ml-1">to</span>
+                      <span className="font-medium ml-1">
+                        {Math.min(lastIndex, totalRecords)}
+                      </span>
+                      <span className="ml-1">of</span>
+                      <span className="font-medium ml-1">{totalRecords}</span>
+                      <span className="ml-1">results</span>
+                    </p>
+                  </div>
+                  <div className="flex gap-3">
+                    <button
+                      onClick={prePage}
+                      className={`flex items-center px-4 py-2 text-sm font-semibold text-black bg-white   ${currentpage === 1 ? "hidden" : ""
+                        }`}
+                    >
+                      <svg
+                        aria-hidden="true"
+                        className="w-5 h-5 mr-2"
+                        fill="black"
+                        viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M7.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l2.293 2.293a1 1 0 010 1.414z"
+                          clipRule="evenodd"
+                        ></path>
+                      </svg>
+                      Prev
+                    </button>
+                    <p className="text-sm text-black flex justify-center items-center ">
+                      <span className="">Page</span>
+                      <span className="font-medium ml-1">{currentpage}</span>
+                      <span className="ml-1">of</span>
+                      <span className="font-medium ml-1">{nPage}</span>
+                    </p>
+                    <button
+                      onClick={nextPage}
+                      className={`flex items-center px-4 py-2 text-sm font-semibold text-black bg-white   ${currentpage === nPage ? "hidden" : ""
+                        }`}
+                    >
+                      Next
+                      <svg
+                        aria-hidden="true"
+                        className="w-5 h-5 ml-2"
+                        fill="black"
+                        viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z"
+                          clipRule="evenodd"
+                        ></path>
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              </>
+            }
           </div>
         </>
       )}
@@ -437,13 +436,12 @@ function Tr({
   const navigateToProductDetails = (productId) => {
     navigate(`/all-products/${action}/${productId}`);
   };
-  const CreatedAt = format(new Date(createdAt), "yyyy-MM-dd HH:mm");
   // const stockInfo = pstock.find(stock => stock.shop === sellerId);
 
   return (
     <tr className="text-black text-sm font-normal bg-white border-b border-gray-400  text-left text-[15px]">
       <td className="px-6 py-4 whitespace-nowrap ">{_id}</td>
-      <td className="px-6 py-4 whitespace-nowrap ">{CreatedAt}</td>
+      <td className="px-6 py-4 whitespace-nowrap "><Moment format="YYYY-MM-DD HH:mm:ss">{createdAt}</Moment></td>
       <td className="px-6 py-4 whitespace-nowrap">
         <a target="_blank" rel="noreferrer" href={images}>
           <img
@@ -455,7 +453,7 @@ function Tr({
       </td>
       <td className="px-6 py-4 whitespace-nowrap capitalize">{name}</td>
       <td className="px-6 py-4 whitespace-nowrap capitalize">{category}</td>
-      <td className="px-6 py-4   break-words">{originalPrice}</td>
+      <td className="px-6 py-4 break-words">{originalPrice}</td>
       <td
         className={` px-6 py-4  font-semibold  capitalize ${
           stock >= 100 ? "text-lime-600" : "text-red-600"

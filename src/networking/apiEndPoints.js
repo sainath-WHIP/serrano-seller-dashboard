@@ -11,6 +11,9 @@ export const getSellerDetailsUrl = server + "/getSeller";
 // Seller login api POST
 export const shopLoginUrl = server + "/login-shop";
 
+// Seller activation api POST
+export const shopActivationUrl = server + "/activation";
+
 // Seller logout api GET
 export const shopLogOutUrl = server + "/logout";
 

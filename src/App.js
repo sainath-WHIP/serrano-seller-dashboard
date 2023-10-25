@@ -37,7 +37,7 @@ function App() {
             <Routes>
               <Route path="/" element={<ShopLogin />} />
               <Route path="/shop-register" element={<ShopCreate />} />
-              <Route path="/shop-register/:shop_activation" element={<ShopActivation />} />
+              <Route path="/seller/activation/:activation_token" element={<ShopActivation />} />
 
               <Route path="/forgot-password" element={<ForgotPassword />} />
               <Route

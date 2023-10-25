@@ -12,9 +12,7 @@ const ShopLogin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [visible, setVisible] = useState(false);
-  const [response, setResponse] = useState({});
-  const [token, setToken] = useState(null);
-  const [shopId, setShopId] = useState(null);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -29,6 +27,7 @@ const ShopLogin = () => {
     e.preventDefault();
     
     try {
+      setLoading(true);
       const res = await axios.post(
         shopLoginUrl,
         {
@@ -37,24 +36,17 @@ const ShopLogin = () => {
         },
         { withCredentials: true }
       );
-      console.log("response from api ", res?.data);
-      console.log('message', res?.data?.message);
-      setResponse(res);
-      setToken(res?.data?.token);
-      setShopId(res?.data?.user?._id);
       localStorage.setItem("token", res?.data?.token);
       localStorage.setItem("shopId", res?.data?.user._id);
       dispatch(getSellerInfo());
       toast(res?.data?.message);
+      setLoading(false);
       navigate('/dashboard');
     } catch (err) {
-      toast.error(err?.response?.data?.message);
-      console.error(err.response?.data?.message);
+      toast(err?.response?.data?.message);
+      console.log(err.response?.data?.message);
     }
   };
-
-  console.log("token", token);
-  console.log("shopId", shopId);
 
   return (
     <div className="min-h-screen bg-[#ccc] flex flex-col justify-center py-12 sm:px-6 lg:px-8">
@@ -149,7 +141,7 @@ const ShopLogin = () => {
                 type="submit"
                 className="group relative w-full h-[40px] flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-black hover:shadow-md"
               >
-                Submit
+                {loading ? "Loading..." : "Submit"}
               </button>
             </div>
             <div className={`flex items-center w-full`}>

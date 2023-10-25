@@ -224,20 +224,20 @@ export const LogoutShopAlert = ({ setModalOpen, modalOpen, api }) => {
           <div className="modal-container bg-white w-11/12 md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto">
             <div className="modal-content py-4 text-left px-6">
               <div className="flex justify-between items-center pb-3">
-                <p className="text-2xl font-bold">Confirm Logout</p>
+                <p className="text-xl font-bold">Confirm Logout</p>
               </div>
 
-              <p className="text-lg">Are you sure you want to Logout!</p>
+              <p className="text-base">Are you sure you want to Logout!</p>
 
               <div className="flex justify-end pt-6">
                 <button
-                  className="bg-gray-300 text-gray-700 px-4 py-2 rounded-md mr-2"
+                  className="bg-gray-300 text-gray-700 px-4 py-2 text-base rounded-md mr-2"
                   onClick={() => setModalOpen(false)}
                 >
                   Cancel
                 </button>
                 <button
-                  className="bg-red-500 text-white px-4 py-2 rounded-md "
+                  className="bg-red-500 text-white px-4 py-2 text-base rounded-md "
                   onClick={LogoutHandler}
                 >
                   Logout
