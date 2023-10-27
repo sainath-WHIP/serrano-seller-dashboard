@@ -1,4 +1,3 @@
-import axios from "axios";
 
 const ApiGet = async (api) => {
   try {

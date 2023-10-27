@@ -3,10 +3,8 @@ import { GiMoneyStack, GiTakeMyMoney } from "react-icons/gi";
 import { AiOutlineShop } from "react-icons/ai";
 import { RxCross2 } from "react-icons/rx";
 import Layout from "../../components/Layout";
-import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
 import Loadnig from "../../components/Loading";
 import { HiOutlineUserGroup } from "react-icons/hi";
 import { ApiGet } from "../../networking/apiCalls";
@@ -59,11 +57,9 @@ const Labels = [
 
 function ShopAllProducts() {
   const [search, setSearch] = useState("");
-  const [modalOpen, setModalOpen] = useState(false);
   const [array, setArray] = useState([]);
   const [newlist, setNewList] = useState([]);
   const [currentpage, setCurrentPage] = useState(1);
-  const [selectedProductId, setSelectedProductId] = useState(null);
   const [sortByNameAsc, setSortByNameAsc] = useState(true);
   const [sortByIdAsc, setSortByIdAsc] = useState(true);
   const [sortByCreatedAtAsc, setSortByCreatedAtAsc] = useState(true);
@@ -71,31 +67,8 @@ function ShopAllProducts() {
   const [loading, setLoading] = useState(false);
   const { seller } = useSelector((state) => state.seller);
 
-  const dispatch = useDispatch();
   const searchRef = useRef();
   const pageSize = 6;
-
-  // deleting Seller
-  const deleteProduct = async (id) => {
-    try {
-      const response = await axios.delete(
-        `https://api.serrano.in/api/v2/admin/products/${id}`,
-        { withCredentials: true }
-      );
-      console.log("Productid", id);
-      if (response.status === 200) {
-        console.log("Product deleted successfully.", id);
-
-        toast(response?.data?.message);
-      } else {
-        toast(response?.data?.message);
-
-        console.error("Failed to delete seller. Status code:", response.status);
-      }
-    } catch (error) {
-      console.error("An error occurred:", error);
-    }
-  };
 
   useEffect(() => {
     const getAllProducts = async () => {
@@ -158,11 +131,7 @@ function ShopAllProducts() {
       setCurrentPage(currentpage + 1);
     }
   };
-  const modalDeleteHandler = (id) => {
-    setSelectedProductId(id);
-    setModalOpen(true);
-    console.log("selectedProductId", selectedProductId);
-  };
+
   const handleClearClick = () => {
     setSearch("");
     searchRef.current.value = ""; // Clear the input field's value
@@ -220,7 +189,7 @@ function ShopAllProducts() {
       }
     });
     setNewList(filteredList);
-  }, [statusFilter]);
+  }, [statusFilter, array]);
 
   return (
     <Layout>
@@ -336,8 +305,6 @@ function ShopAllProducts() {
                                 _id={item._id}
                                 pstock={item.pstock}
                                 sellerId={seller._id}
-                                deleteProduct={deleteProduct}
-                                modalDeleteHandler={modalDeleteHandler}
                               />
                             )
                           })}
@@ -446,7 +413,7 @@ function Tr({
         <a target="_blank" rel="noreferrer" href={images}>
           <img
             src={images[0]}
-            alt="shop image"
+            alt="shop"
             className="cursor-pointer w-18 h-11"
           />
         </a>

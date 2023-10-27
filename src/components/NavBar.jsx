@@ -1,20 +1,13 @@
 import { useState } from "react";
-import { BiLeftArrowAlt, BiLogOut } from "react-icons/bi";
+import { BiLeftArrowAlt } from "react-icons/bi";
 import { MdOutlineDashboard } from "react-icons/md";
 import { BsBag, BsBagPlus } from "react-icons/bs";
 import { PiPackageDuotone } from "react-icons/pi";
-import { LuChevronLeft } from 'react-icons/lu'
 import { Link, useLocation } from "react-router-dom";
-import axios from "axios";
-import { server } from "../networking/apiEndPoints";
-import { LoadSellerFail } from "../redux/slices/sellerSlice";
-import { useDispatch } from "react-redux";
 import Dropdown from "./DropDown";
 
 const NavBar = () => {
   const [open, setOpen] = useState(true);
-  const [pressed, setPressed] = useState(true);
-  const dispatch = useDispatch()
 
   const IsActiveLink = (path) => {
     const location = useLocation();
@@ -43,26 +36,6 @@ const NavBar = () => {
     { id: 3, label: "All Products", icon: AddProducts, link: "/all-products" },
     { id: 4, label: "Orders", icon: Orders, link: "/orders" },
   ];
-
-  const logoutHandler = async () => {
-    setPressed(false);
-    try {
-      await axios
-        .get(server + "/shop/logout")
-        .then((res) => {
-          console.log("response from logout api", res);
-          dispatch(LoadSellerFail());
-          localStorage.setItem("token", "");
-          localStorage.setItem("shopId", "");
-          console.log("token ");
-        })
-        .catch((error) => {
-          console.log("error from logout api");
-        });
-    } catch (error) {
-      alert('error catch');
-    }
-  };
 
   return (
     <>

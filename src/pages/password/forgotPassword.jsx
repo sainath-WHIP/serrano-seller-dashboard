@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Logo from "../../assets/serrano.png";
 import { ApiPost } from "../../networking/apiCalls";

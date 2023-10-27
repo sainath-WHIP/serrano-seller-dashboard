@@ -1,9 +1,9 @@
 import { useEffect } from "react";
-import { useSelector } from "react-redux";
+// import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 function ProtectedRoute({ children }) {
-  const { isLoading, isSeller } = useSelector((state) => state.seller);
+  // const { isLoading, isSeller } = useSelector((state) => state.seller);
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
 

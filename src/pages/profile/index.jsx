@@ -5,19 +5,17 @@ import { updateSellerAvatarUrl, updateSellerInfoUrl } from "../../networking/api
 import axios from "axios";
 import { toast } from "react-toastify";
 import { RxAvatar, RxCross2 } from "react-icons/rx";
-import { ApiPut } from "../../networking/apiCalls";
 import { getSellerInfo } from "../../redux/actions/sellerAction";
 
 function ShopProfile() {
   const { seller } = useSelector((state) => state.seller);
-  const [read, setRead] = useState(false);
-  const [avatar, setAvatar] = useState(seller?.avatar);
   const [sellerInfo, setSellerInfo] = useState({
     name: seller?.name,
     email: seller?.email,
     phoneNumber: seller?.phoneNumber,
     address: seller?.address,
     zipCode: seller?.zipCode,
+    avatar: seller?.avatar
   });
   const [modalOpen, setModalOpen] = useState(false);
 
@@ -48,43 +46,6 @@ function ShopProfile() {
     }
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    const formData = new FormData();
-    const imageFile = e.target.querySelector('input[type="file"]').files[0];
-    formData.append("image", imageFile);
-    try {
-      const response = await ApiPut(updateSellerAvatarUrl, {formData});
-      const data = await response.json();
-      if (response.ok) {
-        console.log("Success:", data);
-        toast.success(data?.message);
-      } else {
-        console.log("Error:", data?.message);
-      }
-    } catch (error) {
-      console.error("Network Error:", error);
-    }
-  };
-
-  const handleFileInputChange = (e) => {
-    setAvatar(e.target.files[0]);
-  };
-
-  const handleFileInput = (e) => {
-    const reader = new FileReader();
-    reader.onload = () => {
-      if (reader.readyState === 2) {
-        setAvatar(reader.result);
-      }
-    };
-    reader.readAsDataURL(e.target.files[0]);
-  };
-
-  console.log("seller redux", seller);
-  console.log("seller info state ", sellerInfo);
-
   return (
     <>
       <Layout>
@@ -96,7 +57,8 @@ function ShopProfile() {
                   <div className="flex flex-col justify-center items-center mb-10">
                     <div className="">
                       <img
-                        src={avatar}
+                        src={sellerInfo.avatar}
+                        alt="shop"
                         className="w-32 h-32 rounded-full border border-[#ccc]"
                       />
                     </div>
@@ -148,7 +110,6 @@ function ShopProfile() {
                       onChange={(e) =>
                         setSellerInfo({ ...sellerInfo, email: e.target.value })
                       }
-                      readOnly={read}
                       className="py-2 px-4 shadow-sm border border-gray-400 outline-none rounded-lg text-sm font-normal"
                     />
                   </div>
@@ -161,7 +122,6 @@ function ShopProfile() {
                       type="number"
                       name="phoneNumber"
                       value={sellerInfo.phoneNumber}
-                      readOnly={read}
                       onChange={(e) =>
                         setSellerInfo({
                           ...sellerInfo,
@@ -178,7 +138,6 @@ function ShopProfile() {
                       type="text"
                       name="address"
                       value={sellerInfo.address}
-                      readOnly={read}
                       onChange={(e) =>
                         setSellerInfo({
                           ...sellerInfo,
@@ -195,7 +154,6 @@ function ShopProfile() {
                       type="text"
                       name="zipCode"
                       value={sellerInfo.zipCode}
-                      readOnly={read}
                       className="py-2 px-4 shadow-sm border border-gray-400 outline-none rounded-lg capitalize text-sm font-normal"
                       onChange={(e) =>
                         setSellerInfo({
@@ -286,7 +244,7 @@ const ProfileModal = ({ Profile, setModalOpen, modalOpen }) => {
               </div>
               <img
                 src={avatar}
-                alt="Profile Image"
+                alt="Profile"
                 className="rounded-full mx-auto "
                 style={{ width: "150px", height: "150px" }}
               />

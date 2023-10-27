@@ -3,7 +3,6 @@ import { useParams } from 'react-router-dom';
 import Layout from '../../components/Layout';
 import { ApiGet, ApiPut } from '../../networking/apiCalls';
 import { getOrdersUrl, updateOrderStatusUrl } from '../../networking/apiEndPoints';
-import { format } from 'date-fns';
 import { toast } from 'react-toastify';
 import Moment from 'react-moment';
 
@@ -23,12 +22,7 @@ function OriderDetails() {
             console.log("filtered data ", filteredData)
         };
         getOrders();
-    }, []);
-
-    const statusChange = (e) => {
-        console.log("status change ", status)
-        setStatus(e.target.value);
-    }
+    }, [order_id]);
 
     const updateOrderStatusHandler = async (id) => {
         const reponse = await ApiPut(updateOrderStatusUrl + id, { status: status })
@@ -41,8 +35,6 @@ function OriderDetails() {
         console.log("response from api ", result);
     }
 
-    console.log("orderdata state ", orderData);
-    console.log("order status ", status)
     return (
         <>
             <Layout>
@@ -74,7 +66,7 @@ function OriderDetails() {
                                             {orderData?.cart?.map((item) => (
                                                 <tr className="text-black text-sm font-normal text-left">
                                                     <td className="px-6 py-2">
-                                                        <img src={item.images} alt="Product image" className='w-12 rounded-sm' />
+                                                        <img src={item.images} alt="product" className='w-12 rounded-sm' />
                                                     </td>
                                                     <td className="px-6 py-4 whitespace-nowrap">{item.name}</td>
                                                     <td className="px-6 py-4 whitespace-nowrap">{item.originalPrice}</td>

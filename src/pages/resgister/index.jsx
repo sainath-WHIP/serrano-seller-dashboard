@@ -1,14 +1,12 @@
 import { React, useState } from "react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { Link, useNavigate } from "react-router-dom";
-import { FaRegAddressCard } from "react-icons/fa";
 import { TbLicense } from "react-icons/tb";
 import { PiIdentificationCardThin } from "react-icons/pi";
 import { LiaIdCardAltSolid } from "react-icons/lia";
 import { CiShop } from "react-icons/ci";
 import logo from "../../assets/serrano.png";
 import { toast } from "react-toastify";
-import Loading from "../../components/Loading";
 
 const ShopCreate = () => {
   const [email, setEmail] = useState("");

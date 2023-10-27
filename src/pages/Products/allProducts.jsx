@@ -1,20 +1,14 @@
 import React, { useEffect, useRef, useState } from "react";
 import { GiMoneyStack, GiTakeMyMoney } from "react-icons/gi";
 import { AiOutlineShop } from "react-icons/ai";
-import { TbEdit } from "react-icons/tb";
 import { RxCross2 } from "react-icons/rx";
-import { MdOutlineDelete } from "react-icons/md";
 import Layout from "../../components/Layout";
-import axios from "axios";
-import { useNavigate, useParams } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { toast } from "react-toastify";
-import { format } from "date-fns";
+import { useNavigate } from "react-router-dom";
 import Loadnig from "../../components/Loading";
 import { HiOutlineUserGroup } from "react-icons/hi";
-// import { setProductData } from "../redux/reducers/productSlice";
 import { ApiGet } from "../../networking/apiCalls";
 import { getAllProductsUrl } from "../../networking/apiEndPoints";
+import Moment from "react-moment";
 
 const Total_Income = () => {
   return <GiMoneyStack size={27} color="white" />;
@@ -62,44 +56,17 @@ const Labels = [
 
 function AllProducts() {
   const [search, setSearch] = useState("");
-  const [modalOpen, setModalOpen] = useState(false);
   const [array, setArray] = useState([]);
   const [newlist, setNewList] = useState([]);
   const [currentpage, setCurrentPage] = useState(1);
-  const [selectedProductId, setSelectedProductId] = useState(null);
   const [sortByNameAsc, setSortByNameAsc] = useState(true);
   const [sortByIdAsc, setSortByIdAsc] = useState(true);
   const [sortByCreatedAtAsc, setSortByCreatedAtAsc] = useState(true);
   const [statusFilter, setStatusFilter] = useState("all");
   const [loading, setLoading] = useState(false);
-  // const { product_id, action } = useParams();
-  // console.log(" product id and action ", product_id, action );
 
-  const dispatch = useDispatch();
   const searchRef = useRef();
   const pageSize = 6;
-
-  // deleting Seller
-  const deleteProduct = async (id) => {
-    try {
-      const response = await axios.delete(
-        `https://api.serrano.in/api/v2/admin/products/${id}`,
-        { withCredentials: true }
-      );
-      console.log("Productid", id);
-      if (response.status === 200) {
-        console.log("Product deleted successfully.", id);
-
-        toast(response?.data?.message);
-      } else {
-        toast(response?.data?.message);
-
-        console.error("Failed to delete seller. Status code:", response.status);
-      }
-    } catch (error) {
-      console.error("An error occurred:", error);
-    }
-  };
 
   useEffect(() => {
     const getAllProducts = async () => {
@@ -167,11 +134,7 @@ function AllProducts() {
       setCurrentPage(currentpage + 1);
     }
   };
-  const modalDeleteHandler = (id) => {
-    setSelectedProductId(id);
-    setModalOpen(true);
-    console.log("selectedProductId", selectedProductId);
-  };
+
   const handleClearClick = () => {
     setSearch("");
     searchRef.current.value = ""; // Clear the input field's value
@@ -229,7 +192,7 @@ function AllProducts() {
       }
     });
     setNewList(filteredList);
-  }, [statusFilter]);
+  }, [statusFilter, array]);
 
   return (
     <Layout>
@@ -336,8 +299,6 @@ function AllProducts() {
                             {...item}
                             key={id}
                             _id={item._id}
-                            deleteProduct={deleteProduct}
-                            modalDeleteHandler={modalDeleteHandler}
                           />
                         );
                       })}
@@ -430,24 +391,22 @@ function Tr({
   images,
   createdAt,
   formVisiblehandler,
-  modalDeleteHandler,
 }) {
   const navigate = useNavigate();
   const action = "add";
   const navigateToProductDetails = (productId) => {
     navigate(`/all-products/${action}/${productId}`);
   };
-  const CreatedAt = format(new Date(createdAt), "yyyy-MM-dd HH:mm");
 
   return (
     <tr className="text-black text-sm font-normal bg-white border-b border-gray-400  text-left text-[15px]">
       <td className="px-6 py-4 whitespace-nowrap ">{_id}</td>
-      <td className="px-6 py-4 whitespace-nowrap ">{CreatedAt}</td>
+      <td className="px-6 py-4 whitespace-nowrap "><Moment format="YYYY-MM-DD HH:mm:ss">{createdAt}</Moment></td>
       <td className="px-6 py-4 whitespace-nowrap">
         <a target="_blank" rel="noreferrer" href={images}>
           <img
             src={images[0]}
-            alt="shop image"
+            alt="shop"
             className="cursor-pointer w-18 h-11"
           />
         </a>
