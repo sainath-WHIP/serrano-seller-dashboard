@@ -1,52 +1,22 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useSelector } from "react-redux";
 import {
-  createProductUrl,
   getAllProductsUrl,
   updateProductUrl,
 } from "../../networking/apiEndPoints";
 import Layout from "../../components/Layout";
 import { toast } from "react-toastify";
 import { useParams } from "react-router-dom";
-import { ApiGet, ApiPost, ApiPut } from "../../networking/apiCalls";
+import { ApiGet } from "../../networking/apiCalls";
 
 function AddProduct() {
-  const { seller } = useSelector((state) => state.seller);
-  // kemlifesto@gufum.com
   const [product, setProduct] = useState({});
-  const [loading, setLoading] = useState(false);
-
-  const [images, setImages] = useState([]);
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
-  const [category, setCategory] = useState("");
-  const [tags, setTags] = useState("");
-  const [originalPrice, setOriginalPrice] = useState("");
-  const [discountPrice, setDiscountPrice] = useState("");
   const [stock, setStock] = useState("");
   const { product_id, action } = useParams();
-  console.log(" product id and action ", product_id, action)
-
-  const handleImageChange = (e) => {
-    const files = Array.from(e.target.files);
-    setImages([]);
-    files.forEach((file) => {
-      const reader = new FileReader();
-
-      reader.onload = () => {
-        if (reader.readyState === 2) {
-          setImages((old) => [...old, reader.result]);
-        }
-      };
-      reader.readAsDataURL(file);
-    });
-  };
 
   useEffect(() => {
     const getAllProducts = async () => {
       try {
-        setLoading(true);
         const data = await ApiGet(getAllProductsUrl);
         const result = await data.json();
         const filteredProducts = result.products.find(
@@ -54,13 +24,12 @@ function AddProduct() {
         );
         console.log("all products data", filteredProducts);
         setProduct(filteredProducts);
-        setLoading(false);
       } catch (error) {
         console.log("error", error);
       }
     };
     getAllProducts();
-  }, []);
+  }, [product_id]);
 
   console.log("product state ", product);
 
@@ -99,7 +68,6 @@ function AddProduct() {
                   id="name"
                   name="name"
                   value={product?.name}
-                  onChange={(e) => setName(e.target.value)}
                   className="w-full border border-gray-400 rounded-md py-2 px-3 text-black font-medium text-sm outline-none shadow-sm"
                   readOnly
                 />

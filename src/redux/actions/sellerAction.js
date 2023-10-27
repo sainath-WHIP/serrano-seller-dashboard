@@ -14,7 +14,7 @@ export const getSellerInfo = () => async (dispatch) => {
       withCredentials: true,
     });
 
-    dispatch(LoadSellerSuccess(data.seller));
+    dispatch(LoadSellerSuccess(data?.seller));
   } catch (error) {
     dispatch(LoadSellerFail(error.response.data.message));
   }

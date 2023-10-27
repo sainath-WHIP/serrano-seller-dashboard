@@ -3,7 +3,6 @@ import Layout from "../../components/Layout";
 import Cards from "../../components/Cards";
 import { RxCross2 } from "react-icons/rx";
 import { useNavigate } from "react-router-dom";
-import { format } from "date-fns";
 import Loadnig from "../../components/Loading";
 import { getOrdersUrl } from "../../networking/apiEndPoints";
 import { ApiGet } from "../../networking/apiCalls";
@@ -44,7 +43,7 @@ function Dashboard() {
 
   useEffect(() => {
     const filteredList = array.reverse().filter((item) => {
-      const { user, cart, status } = item;
+      const { user, status } = item;
       const lowerCaseSearch = search.toLowerCase();
 
       // If the search is empty, include the item in the result
@@ -162,7 +161,7 @@ function Dashboard() {
       }
     });
     setNewList(filteredList);
-  }, [statusFilter]);
+  }, [statusFilter, array]);
 
   const navigateToOrderDetails = (orderId) => {
     navigate(`/orders/${orderId}`);
