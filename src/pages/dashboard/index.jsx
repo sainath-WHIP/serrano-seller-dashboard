@@ -32,8 +32,8 @@ function Dashboard() {
         const data = await response.json();
         console.log("all orders data", data?.orders);
         setArray(data?.orders || []);
-        const orderData = data?.orders;
-        console.log("orderData", orderData);
+        // const orderData = data?.orders;
+        // console.log("orderData", orderData);
         setLoading(false);
       } catch (error) {
         console.log("error", error);
